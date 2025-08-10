@@ -1,0 +1,42 @@
+# This is the master ArgoCD Application that will watch your
+# "control" repository for other Application manifests.
+# You only need to apply this one time.
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # A descriptive name for your master app.
+  name: app-of-apps-master
+  # This app manages other apps, so it's best to place it in the same namespace as ArgoCD.
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  
+  # This is the "control" repository that you will commit your child app manifests to.
+  source:
+    # IMPORTANT: Replace this URL with your own private repository's SSH URL.
+    repoURL: git@github.com:quentinstaples/argocd.git
+    # The target revision can be a specific branch (e.g., 'main').
+    targetRevision: main
+    # The path is a dot ('.') because we want this master app to look at the
+    # root of the repository for all YAML files.
+    path: .
+
+  # The destination for the resources managed by this application.
+  # Since this app is managing other Application manifests, it needs to deploy them
+  # to the same cluster and namespace where ArgoCD is running.
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+
+  # The synchronization policy. This will automatically sync any changes
+  # (like a new child app manifest) in your control repo.
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=false
