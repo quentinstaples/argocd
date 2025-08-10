@@ -17,8 +17,6 @@ spec:
   source:
     # This is your private repository where the 'elastic-stack' chart is located.
     repoURL: https://github.com/quentinstaples/elastic.git
-    # The name of your custom umbrella chart.
-    chart: elastic-stack
     # The branch of your Git repository to use.
     targetRevision: main
     path: umbrella
