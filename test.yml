@@ -1,0 +1,35 @@
+# This is an example of a child Application manifest.
+# You would commit this file directly to the repository specified in the
+# 'argocd-app-of-apps' manifest above (e.g., git@github.com:your-org/argocd-control-repo.git).
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # Give your child application a unique name.
+  name: guestbook-app
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  
+  # The source now points to the actual application you want to deploy.
+  source:
+    # Use the HTTPS URL for this application's repository.
+    repoURL: https://github.com/argoproj/argocd-example-apps.git
+    targetRevision: HEAD
+    path: guestbook
+
+  # The destination is where this application will be deployed.
+  # This can be a different namespace than 'argocd'.
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: guestbook
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
