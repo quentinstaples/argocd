@@ -21,6 +21,7 @@ spec:
     chart: elastic-stack
     # The branch of your Git repository to use.
     targetRevision: main
+    path: ./umbrella
 
   # The destination defines where the application will be deployed in your cluster.
   destination:
