@@ -1,38 +1,38 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   # Give your application a unique and descriptive name.
-#   name: cert-manager
-#   namespace: argocd
-#   annotations:
-#     argocd.argoproj.io/sync-wave: "2"
-#   finalizers:
-#     - resources-finalizer.argocd.argoproj.io
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # Give your application a unique and descriptive name.
+  name: cert-manager
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 
-# spec:
-#   project: default
+spec:
+  project: default
   
-#   # The source configuration now points to your Git repository and your new chart.
-#   source:
-#     # This is your private repository where the 'elastic-stack' chart is located.
-#     repoURL: git@github.com:quentinstaples/elastic.git
-#     # The branch of your Git repository to use.
-#     targetRevision: main
-#     path: dependencies/cert-manager
+  # The source configuration now points to your Git repository and your new chart.
+  source:
+    # This is your private repository where the 'elastic-stack' chart is located.
+    repoURL: git@github.com:quentinstaples/elastic.git
+    # The branch of your Git repository to use.
+    targetRevision: main
+    path: dependencies/cert-manager
 
-#   # The destination defines where the application will be deployed in your cluster.
-#   destination:
-#     server: https://kubernetes.default.svc
-#     # It's a good practice to use a dedicated namespace for Elastic.
-#     namespace: cert-manager
+  # The destination defines where the application will be deployed in your cluster.
+  destination:
+    server: https://kubernetes.default.svc
+    # It's a good practice to use a dedicated namespace for Elastic.
+    namespace: cert-manager
 
-#   # The synchronization policy ensures that changes are automatically applied.
-#   syncPolicy:
-#     automated:
-#       prune: true
-#       selfHeal: true
-#     syncOptions:
-#       - CreateNamespace=true
+  # The synchronization policy ensures that changes are automatically applied.
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
 ---
 # cert-manager-crds-app.yaml
 apiVersion: argoproj.io/v1alpha1
