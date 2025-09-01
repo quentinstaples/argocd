@@ -27,7 +27,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     # It's a good practice to use a dedicated namespace for Elastic.
-    namespace: elastic-system
+    namespace: elastic-stack
 
   # The synchronization policy ensures that changes are automatically applied.
   syncPolicy:
