@@ -1,2 +1,4 @@
 sops-secrets-operator:
   enabled: true
+  gpg: 
+    enabled: true
