@@ -33,6 +33,31 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+---
+# cert-manager-crds-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-crds
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://charts.jetstack.io
+    targetRevision: v1.18.2
+    chart: cert-manager
+    helm:
+      releaseName: cert-manager-crd-only
+      parameters:
+        - name: crds.enabled
+          value: "true"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
 
 ---
 apiVersion: argoproj.io/v1alpha1
