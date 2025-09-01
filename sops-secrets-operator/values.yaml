@@ -1,0 +1,2 @@
+sops-secrets-operator:
+  enabled: true
